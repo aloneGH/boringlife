@@ -1,6 +1,6 @@
 package cn.lemene.boringlife.interfaces;
 
-import cn.lemene.boringlife.module.DBBookRespone;
+import cn.lemene.boringlife.module.QueryDBBookRespone;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -18,7 +18,7 @@ public interface DBBookService {
      * @return 搜索结果字符串
      */
     @GET("book/search")
-    Call<DBBookRespone> searchBooksByKeyword(@Query("q") String keyword);
+    Call<QueryDBBookRespone> searchBooksByKeyword(@Query("q") String keyword);
 
     /**
      * 通过标签搜索图书
@@ -26,5 +26,5 @@ public interface DBBookService {
      * @return 搜索结果字符串
      */
     @GET("book/search")
-    Call<DBBookRespone> searchBooksByTag(@Query("t") String tag);
+    Call<QueryDBBookRespone> searchBooksByTag(@Query("t") String tag);
 }

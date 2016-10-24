@@ -6,18 +6,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ListView;
+
+import com.orhanobut.logger.Logger;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.lemene.boringlife.R;
+import cn.lemene.boringlife.adapter.BookListAdapter;
 import cn.lemene.boringlife.interfaces.DBBookService;
 import cn.lemene.boringlife.manager.RetrofitManager;
-import cn.lemene.boringlife.module.DBBookRespone;
+import cn.lemene.boringlife.module.DBBook;
+import cn.lemene.boringlife.module.QueryDBBookRespone;
 import cn.lemene.boringlife.view.MainNavigationView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
     protected MainNavigationView mNavigationView;
 
     @BindView(R.id.search_input)
-    protected EditText searchInput;
+    protected EditText mSearchInput;
 
-    @BindView(R.id.seach_result)
-    protected TextView searchResult;
+    @BindView(R.id.search_result)
+    protected ListView mSearchResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        Logger.init(getClass().getSimpleName());
         initView();
     }
 
@@ -95,26 +101,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void searchBooks() {
-        String keyword = searchInput.getText().toString();
+        String keyword = mSearchInput.getText().toString();
 
         Retrofit retrofit = RetrofitManager.getIntance().createRetrofit(RetrofitManager.DOUBAN_BOOK_BASE_URL);
         DBBookService bookService = retrofit.create(DBBookService.class);
-        bookService.searchBooksByKeyword(keyword).enqueue(new Callback<DBBookRespone>() {
+        bookService.searchBooksByKeyword(keyword).enqueue(new Callback<QueryDBBookRespone>() {
             @Override
-            public void onResponse(Call<DBBookRespone> call, Response<DBBookRespone> response) {
-                Log.d("cgt", "onRespone");
-                Log.d("cgt", "data: " + response.body());
-                DBBookRespone bookRespone = response.body();
+            public void onResponse(Call<QueryDBBookRespone> call, Response<QueryDBBookRespone> response) {
+                Logger.d("query book done");
+                QueryDBBookRespone bookRespone = response.body();
                 if (response.isSuccessful() && bookRespone != null) {
-//                    String result = bookRespone.getRespone();
-                    searchResult.setText(bookRespone.toString());
+                    updateBookList(bookRespone.getBooks());
                 }
             }
 
             @Override
-            public void onFailure(Call<DBBookRespone> call, Throwable t) {
-                Log.e("cgt", "onFailure", t);
+            public void onFailure(Call<QueryDBBookRespone> call, Throwable t) {
+                Logger.e(t, "query book error");
             }
         });
+    }
+
+    /** 更新图书列表 */
+    private void updateBookList(List<DBBook> books) {
+        mSearchResult.setAdapter(new BookListAdapter(this, books));
     }
 }
