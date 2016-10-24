@@ -32,6 +32,11 @@ public class BookListAdapter extends CommonAdapter<DBBook> {
         return R.layout.list_item_book;
     }
 
+    public void updateBooks(List<DBBook> books) {
+        mList = books;
+        notifyDataSetChanged();
+    }
+
     protected class ViewHolder extends CommonViewHolder<DBBook> {
         @BindView(R.id.book_title)
         protected TextView mTitle;

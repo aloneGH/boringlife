@@ -15,7 +15,7 @@ public class RetrofitManager {
     private static transient RetrofitManager sIntance;
 
     /** 豆瓣读书API的基础路径 */
-    public static final String DOUBAN_BOOK_BASE_URL = "https://api.douban.com/v2/";
+    public static final String BASE_URL_DOUBAN_BOOK = "https://api.douban.com/v2/";
 
     public static RetrofitManager getIntance() {
         if (sIntance == null) {
@@ -30,6 +30,10 @@ public class RetrofitManager {
 
     public Retrofit createRetrofit(String baseUrl) {
         return createRetrofit(baseUrl, createDefaultHttpClient());
+    }
+
+    public Retrofit createDBBookRetrofit() {
+        return createRetrofit(BASE_URL_DOUBAN_BOOK);
     }
 
     public Retrofit createRetrofit(String baseUrl, OkHttpClient client) {

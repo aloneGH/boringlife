@@ -15,38 +15,9 @@
     tools:showIn="@layout/app_bar_main"
     >
 
-    <LinearLayout
+    <cn.lemene.boringlife.view.DBBookSearchResultView
+        android:id="@+id/search_result_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        >
-
-        <EditText
-            android:id="@+id/search_input"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:imeOptions="actionSearch"
-            android:text="hello"
-            />
-
-        <Button
-            android:id="@+id/search_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search"
-            />
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/search_result"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="12dp"
-    />
+        android:layout_height="match_parent"
+        />
 </LinearLayout>
