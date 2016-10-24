@@ -12,11 +12,14 @@ import android.view.Menu;
 
 import com.orhanobut.logger.Logger;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.lemene.boringlife.R;
 import cn.lemene.boringlife.interfaces.DBBookService;
 import cn.lemene.boringlife.manager.RetrofitManager;
+import cn.lemene.boringlife.module.DBBook;
 import cn.lemene.boringlife.module.QueryDBBookRespone;
 import cn.lemene.boringlife.utils.SoftInputUtils;
 import cn.lemene.boringlife.view.DBBookSearchResultView;
@@ -105,8 +108,13 @@ public class MainActivity extends AppCompatActivity {
                 Logger.d("query book done");
                 QueryDBBookRespone bookRespone = response.body();
                 if (response.isSuccessful() && bookRespone != null) {
-                    SoftInputUtils.hideSoftInput(MainActivity.this);
-                    mSearchResult.onSearchSuccess(bookRespone.getBooks());
+                    List<DBBook> books = bookRespone.getBooks();
+                    if (books != null && books.size() > 0) {
+                        SoftInputUtils.hideSoftInput(MainActivity.this);
+                        mSearchResult.onSearchSuccess(bookRespone.getBooks());
+                    } else {
+                        mSearchResult.onSearchError("No result");
+                    }
                 }
             }
 
