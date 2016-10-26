@@ -1,12 +1,16 @@
 package cn.lemene.boringlife.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +18,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.lemene.boringlife.R;
-import cn.lemene.boringlife.adapter.BookListAdapter;
+import cn.lemene.boringlife.activity.DBBookDetailActivity;
+import cn.lemene.boringlife.adapter.DBBookListAdapter;
 import cn.lemene.boringlife.module.DBBook;
 
 /**
@@ -23,8 +28,9 @@ import cn.lemene.boringlife.module.DBBook;
  * @version v1.0
  */
 
-public class DBBookSearchResultView extends RelativeLayout {
+public class DBBookSearchResultView extends RelativeLayout implements AdapterView.OnItemClickListener {
     private Context mContext;
+    private DBBookListAdapter mAdapter;
 
     @BindView(R.id.search_result)
     protected ListView mSearchResult;
@@ -42,9 +48,17 @@ public class DBBookSearchResultView extends RelativeLayout {
 
     public DBBookSearchResultView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        Logger.init(getClass().getSimpleName());
         mContext = context;
         View view = LayoutInflater.from(mContext).inflate(R.layout.view_db_book_search_result, this, true);
         initView(view);
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        DBBook book = mAdapter.getItem(position);
+        showBookDetail(book);
     }
 
     public void onSearchSuccess(List<DBBook> books) {
@@ -54,12 +68,11 @@ public class DBBookSearchResultView extends RelativeLayout {
             books = new ArrayList<>();
         }
 
-        BookListAdapter adapter = (BookListAdapter) mSearchResult.getAdapter();
-        if (adapter == null) {
-            adapter = new BookListAdapter(mContext, books);
-            mSearchResult.setAdapter(adapter);
+        if (mAdapter == null) {
+            mAdapter = new DBBookListAdapter(mContext, books);
+            mSearchResult.setAdapter(mAdapter);
         } else {
-            adapter.updateBooks(books);
+            mAdapter.updateBooks(books);
         }
     }
 
@@ -74,5 +87,13 @@ public class DBBookSearchResultView extends RelativeLayout {
 
     private void initView(View view) {
         ButterKnife.bind(this, view);
+        mSearchResult.setOnItemClickListener(this);
+    }
+
+    private void showBookDetail(DBBook book) {
+        Logger.d("book = " + book);
+        Intent intent = new Intent(mContext, DBBookDetailActivity.class);
+        intent.putExtra(DBBookDetailActivity.KEY_BOOK, book);
+        mContext.startActivity(intent);
     }
 }

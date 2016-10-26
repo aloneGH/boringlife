@@ -2,6 +2,7 @@ package cn.lemene.boringlife.module;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * @version v1.0
  */
 
-public class DBBook {
+public class DBBook implements Serializable {
     /** ID */
     @SerializedName("id")
     private String mId;
@@ -358,7 +359,7 @@ public class DBBook {
     }
 
     /** 图书评价 */
-    public class Rating {
+    public class Rating implements Serializable {
         /** 最高评价 */
         private int max;
 
@@ -373,7 +374,7 @@ public class DBBook {
     }
 
     /** 图书标签 */
-    public class Tags {
+    public class Tags implements Serializable {
         /** 标签数量 */
         private int count;
 
@@ -385,7 +386,7 @@ public class DBBook {
     }
 
     /** 封面图片 */
-    public class Cover {
+    public class Cover implements Serializable {
         /** 封面小图 */
         private String small;
 

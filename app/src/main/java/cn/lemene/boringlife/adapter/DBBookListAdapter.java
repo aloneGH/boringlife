@@ -16,9 +16,9 @@ import cn.lemene.boringlife.module.DBBook;
  * @version v1.0
  */
 
-public class BookListAdapter extends CommonAdapter<DBBook> {
+public class DBBookListAdapter extends CommonAdapter<DBBook> {
 
-    public BookListAdapter(Context context, List<DBBook> list) {
+    public DBBookListAdapter(Context context, List<DBBook> list) {
         super(context, list);
     }
 
