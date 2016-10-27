@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BoringLife</string>
+    <string name="action_settings">设置</string>
+    <string name="db_error_1000">需要权限</string>
+    <string name="db_error_1001">资源不存在</string>
+    <string name="db_error_1002">参数不全</string>
+    <string name="db_error_1003">图片太大</string>
+    <string name="db_error_1004">敏感词汇</string>
+    <string name="db_error_1005">输入为空或长度不够</string>
+    <string name="db_error_1006">相关的对象不存在</string>
+    <string name="db_error_1007">验证码不对</string>
+    <string name="db_error_1008">不支持的图片格式</string>
+    <string name="db_error_1009">图片格式不对</string>
+    <string name="db_error_1010">访问私有图片的ck不对</string>
+    <string name="db_error_1011">访问私有图片的ck过期</string>
+    <string name="db_error_1012">标题为空</string>
+    <string name="db_error_1013">描述为空</string>
+    <string name="db_error_999">未知错误</string>
+    <string name="http_error_400">地址不存在或参数不对</string>
+    <string name="http_error_401">未授权</string>
+    <string name="http_error_403">禁止访问</string>
+    <string name="http_error_404">资源不存在</string>
+    <string name="http_error_500">服务器内部错误</string>
+    <string name="search_error">"错误: "</string>
+    <string name="search_empty">没有数据</string>
+    <string name="navigation_drawer_close">打开侧栏菜单</string>
+    <string name="navigation_drawer_open">关闭侧栏菜单</string>
+    <string name="db_error_107">无效的Uri</string>
+    <string name="db_error_100">无效的请求</string>
+</resources>

@@ -58,4 +58,14 @@ public class QueryDBBookRespone {
     public void setBooks(List<DBBook> books) {
         mBooks = books;
     }
+
+    @Override
+    public String toString() {
+        return "QueryDBBookRespone{" +
+                "mCount=" + mCount +
+                ", mStart=" + mStart +
+                ", mTotal=" + mTotal +
+                ", mBooks=" + mBooks +
+                '}';
+    }
 }

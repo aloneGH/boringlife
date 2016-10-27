@@ -25,7 +25,7 @@ public interface DBBookService {
      * @param start 搜索结果的起始位置偏移
      * @param count 搜索结果的数量, 最大值为100
      */
-    @GET("book/search")
+    @GET("book/searchcc")
     Call<QueryDBBookRespone> searchBooksByKeyword(@Query("q") String keyword,
                                                   @Query("start") int start,
                                                   @Query("count") int count);

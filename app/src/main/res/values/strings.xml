@@ -6,5 +6,31 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="search_error">Search error, please try again later.</string>
+    <string name="search_error">Error: </string>
+    <string name="search_empty">No data</string>
+
+    <string name="http_error_400">Bad request</string>
+    <string name="http_error_401">Unauthorized</string>
+    <string name="http_error_403">Forbidden</string>
+    <string name="http_error_404">Not found</string>
+    <string name="http_error_500">Internal server error</string>
+
+    <string name="db_error_999">Unknow error</string>
+    <string name="db_error_1000">Need permission</string>
+    <string name="db_error_1001">uri not found</string>
+    <string name="db_error_1002">Missing args</string>
+    <string name="db_error_1003">Image too large</string>
+    <string name="db_error_1004">Has ban word</string>
+    <string name="db_error_1005">Input too short</string>
+    <string name="db_error_1006">Target not found</string>
+    <string name="db_error_1007">Need captcha</string>
+    <string name="db_error_1008">Image unknow</string>
+    <string name="db_error_1009">Image wrong format</string>
+    <string name="db_error_1010">Image wrong ck</string>
+    <string name="db_error_1011">Image ck expired</string>
+    <string name="db_error_1012">Title missing</string>
+    <string name="db_error_1013">Desc missing</string>
+
+    <string name="db_error_100">Invalid request scheme</string>
+    <string name="db_error_107">Invalid request uri</string>
 </resources>

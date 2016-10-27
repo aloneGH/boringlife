@@ -12,22 +12,11 @@ import android.view.Menu;
 
 import com.orhanobut.logger.Logger;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.lemene.boringlife.R;
-import cn.lemene.boringlife.interfaces.DBBookService;
-import cn.lemene.boringlife.manager.RetrofitManager;
-import cn.lemene.boringlife.module.DBBook;
-import cn.lemene.boringlife.module.QueryDBBookRespone;
-import cn.lemene.boringlife.utils.SoftInputUtils;
-import cn.lemene.boringlife.view.DBBookSearchResultView;
+import cn.lemene.boringlife.view.DBBookSearchView;
 import cn.lemene.boringlife.view.MainNavigationView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * 主页面
@@ -44,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.nav_view)
     protected MainNavigationView mNavigationView;
 
-    @BindView(R.id.search_result_view)
-    protected DBBookSearchResultView mSearchResult;
+    @BindView(R.id.search_view)
+    protected DBBookSearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,19 +46,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                searchBooks(query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return true;
-            }
-        });
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        mSearchView.setSearchView(searchView);
         return true;
     }
 
@@ -97,33 +75,5 @@ public class MainActivity extends AppCompatActivity {
         mDrawer.addDrawerListener(toggle);
         toggle.syncState();
         mNavigationView.setDrawer(mDrawer);
-    }
-
-    private void searchBooks(String query) {
-        Retrofit retrofit = RetrofitManager.getIntance().createDBBookRetrofit();
-        DBBookService bookService = retrofit.create(DBBookService.class);
-        bookService.searchBooksByKeyword(query).enqueue(new Callback<QueryDBBookRespone>() {
-            @Override
-            public void onResponse(Call<QueryDBBookRespone> call, Response<QueryDBBookRespone> response) {
-                Logger.d("query book done");
-                QueryDBBookRespone bookRespone = response.body();
-                if (response.isSuccessful() && bookRespone != null) {
-                    List<DBBook> books = bookRespone.getBooks();
-                    if (books != null && books.size() > 0) {
-                        SoftInputUtils.hideSoftInput(MainActivity.this);
-                        mSearchResult.onSearchSuccess(bookRespone.getBooks());
-                    } else {
-                        mSearchResult.onSearchError("No result");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<QueryDBBookRespone> call, Throwable t) {
-                String msg = t.getLocalizedMessage();
-                Logger.e(t, "query book error " + msg);
-                mSearchResult.onSearchError(msg);
-            }
-        });
     }
 }

@@ -32,8 +32,13 @@ public class DBBookListAdapter extends CommonAdapter<DBBook> {
         return R.layout.list_item_book;
     }
 
-    public void updateBooks(List<DBBook> books) {
-        mList = books;
+    public void updateBooks(List<DBBook> books, boolean replace) {
+        if (replace) {
+            mList = books;
+        } else {
+            mList.addAll(books);
+        }
+
         notifyDataSetChanged();
     }
 
