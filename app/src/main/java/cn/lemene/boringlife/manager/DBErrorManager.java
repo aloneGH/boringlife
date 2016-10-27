@@ -129,7 +129,7 @@ public class DBErrorManager {
 
     public String getErrorMsg(Context context, int code) {
         int resid = getErrorMsg(code);
-        if (context != null && resid != -1) {
+        if (context != null && resid > 0) {
             return context.getString(getErrorMsg(code));
         } else {
             return null;

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.orhanobut.logger.Logger;
 
@@ -43,8 +44,9 @@ import retrofit2.Retrofit;
  * @version v1.0
  */
 
-public class DBBookSearchView extends SwipeRefreshLayout
-        implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, AbsListView.OnScrollListener {
+public class DBBookSearchView extends RelativeLayout
+        implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener,
+        SearchView.OnQueryTextListener, AbsListView.OnScrollListener {
     private Context mContext;
     private DBBookListAdapter mAdapter;
     private int mLastItemPos;
@@ -61,10 +63,13 @@ public class DBBookSearchView extends SwipeRefreshLayout
     @BindView(R.id.search_result)
     protected ListView mSearchResult;
 
+    @BindView(R.id.search_refresh_container)
+    protected SwipeRefreshLayout mRefreshLayout;
+
     private SearchView mSearchView;
 
     /** 默认的搜索结果数量 */
-    private static final int DEFAULT_QUERY_COUNT = 20;
+    private static final int DEFAULT_QUERY_COUNT = 100;
 
     public DBBookSearchView(Context context) {
         this(context, null);
@@ -138,9 +143,9 @@ public class DBBookSearchView extends SwipeRefreshLayout
             return;
         }
 
-        if (isRefreshing()) {
+        if (mRefreshLayout.isRefreshing()) {
             Logger.w("refreshing now");
-            setRefreshing(false);
+            mRefreshLayout.setRefreshing(false);
         }
 
         Retrofit retrofit = RetrofitManager.getIntance().createDBBookRetrofit();
@@ -181,8 +186,8 @@ public class DBBookSearchView extends SwipeRefreshLayout
     private void initView(View view) {
         ButterKnife.bind(this, view);
         mSearchResult.setOnItemClickListener(this);
-        setOnRefreshListener(this);
-        setColorSchemeResources(R.color.colorAccent);
+        mRefreshLayout.setOnRefreshListener(this);
+        mRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         setEnabled(false);
         mSearchResult.setOnScrollListener(this);
     }
@@ -244,18 +249,18 @@ public class DBBookSearchView extends SwipeRefreshLayout
 
             errorRespone = QueryDBBookErrorConvertor.fromJson(errorMsg);
             Logger.w("errorRespone = " + errorRespone);
-
         }
 
         DBErrorManager errorManager = DBErrorManager.getInstance();
-        String msg;
-        int code = DBErrorManager.CODE_999;
+        String msg = null;
+        int code = -1;
         if (errorRespone != null) {
             code = errorRespone.getCode();
-            msg = errorRespone.getMsg();
+            msg = errorManager.getErrorMsg(mContext, code);
+            if (msg == null) {
+                msg = errorRespone.getMsg();
+            }
         }
-
-        msg = errorManager.getErrorMsg(mContext, code);
 
         msg += ": " + code;
         onSearchFailure(msg);
@@ -273,12 +278,12 @@ public class DBBookSearchView extends SwipeRefreshLayout
     }
 
     private void onSearchStart() {
-        setRefreshing(true);
+        mRefreshLayout.setRefreshing(true);
         mSearchView.setEnabled(false);
     }
 
     private void onSearchStop() {
-        setRefreshing(false);
+        mRefreshLayout.setRefreshing(false);
         mSearchView.setEnabled(true);
     }
 
