@@ -28,4 +28,10 @@
     <string name="navigation_drawer_open">关闭侧栏菜单</string>
     <string name="db_error_107">无效的Uri</string>
     <string name="db_error_100">无效的请求</string>
+    <string name="search_no_more_data">没有更多数据了</string>
+    <string name="book_author">作者: %s</string>
+    <string name="book_page">页数: %s</string>
+    <string name="book_price">价格: %s</string>
+    <string name="book_sub_title">副标题: %s</string>
+    <string name="book_pub_date">出版日期: %s</string>
 </resources>

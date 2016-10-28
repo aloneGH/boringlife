@@ -8,6 +8,7 @@
 
     <string name="search_error">Error: </string>
     <string name="search_empty">No data</string>
+    <string name="search_no_more_data">No more data</string>
 
     <string name="http_error_400">Bad request</string>
     <string name="http_error_401">Unauthorized</string>
@@ -33,4 +34,10 @@
 
     <string name="db_error_100">Invalid request scheme</string>
     <string name="db_error_107">Invalid request uri</string>
+    
+    <string name="book_author">Author: %s</string>
+    <string name="book_sub_title">SubTitle: %s</string>
+    <string name="book_pub_date">Pub date: %s</string>
+    <string name="book_page">Page: %s</string>
+    <string name="book_price">Price: %s</string>
 </resources>

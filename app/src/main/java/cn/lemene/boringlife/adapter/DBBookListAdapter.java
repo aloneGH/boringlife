@@ -1,7 +1,14 @@
 package cn.lemene.boringlife.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
@@ -16,20 +23,13 @@ import cn.lemene.boringlife.module.DBBook;
  * @version v1.0
  */
 
-public class DBBookListAdapter extends CommonAdapter<DBBook> {
+public class DBBookListAdapter extends RecyclerView.Adapter<DBBookListAdapter.MyViewHolder> {
+    private Context mContext;
+    private List<DBBook> mList;
 
     public DBBookListAdapter(Context context, List<DBBook> list) {
-        super(context, list);
-    }
-
-    @Override
-    protected CommonViewHolder<DBBook> createViewHolder() {
-        return new ViewHolder();
-    }
-
-    @Override
-    protected int getLayout() {
-        return R.layout.list_item_book;
+        mContext = context;
+        mList = list;
     }
 
     public void updateBooks(List<DBBook> books, boolean replace) {
@@ -42,25 +42,70 @@ public class DBBookListAdapter extends CommonAdapter<DBBook> {
         notifyDataSetChanged();
     }
 
-    protected class ViewHolder extends CommonViewHolder<DBBook> {
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.list_item_book, parent, false);
+        return new MyViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        holder.updateView(getItem(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return mList.size();
+    }
+
+    public DBBook getItem(int position) {
+        return mList.get(position);
+    }
+
+    protected class MyViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.book_cardview)
+        protected CardView mCardView;
+
+        @BindView(R.id.book_img)
+        protected SimpleDraweeView mImg;
+
         @BindView(R.id.book_title)
         protected TextView mTitle;
 
         @BindView(R.id.book_author)
         protected TextView mAuthors;
 
-        @Override
-        public void initView() {
-            ButterKnife.bind(this, view);
+        @BindView(R.id.book_sub_title)
+        protected TextView mSubTitle;
+
+        @BindView(R.id.book_pub_date)
+        protected TextView mPubDate;
+
+        @BindView(R.id.book_page)
+        protected TextView mPage;
+
+        @BindView(R.id.book_price)
+        protected TextView mPrice;
+
+        private MyViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            mCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
 
-        @Override
-        public void initListener(int position, DBBook item) {}
-
-        @Override
-        public void updateView(int position, DBBook item) {
-            mTitle.setText(item.getTitle());
-            mAuthors.setText(item.getAuthorsString());
+        private void updateView(DBBook book) {
+            mImg.setImageURI(book.getCover());
+            mTitle.setText(book.getTitle());
+            mAuthors.setText(String.format(mContext.getString(R.string.book_author), book.getAuthorsString()));
+            mSubTitle.setText(String.format(mContext.getString(R.string.book_sub_title), book.getSubtile()));
+            mPubDate.setText(String.format(mContext.getString(R.string.book_pub_date), book.getPUbDate()));
+            mPage.setText(String.format(mContext.getString(R.string.book_page), book.getPages()));
+            mPrice.setText(String.format(mContext.getString(R.string.book_price), book.getPrice()));
         }
     }
 }

@@ -68,8 +68,8 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
     }
     
     /**
-     * 创建 ViewHolder 对象
-     * @return ViewHolder 对象
+     * 创建 MyViewHolder 对象
+     * @return MyViewHolder 对象
      */
     protected abstract CommonViewHolder<T> createViewHolder();
     

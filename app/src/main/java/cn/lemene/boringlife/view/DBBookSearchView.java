@@ -4,14 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.orhanobut.logger.Logger;
@@ -46,10 +46,10 @@ import retrofit2.Retrofit;
 
 public class DBBookSearchView extends RelativeLayout
         implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener,
-        SearchView.OnQueryTextListener, AbsListView.OnScrollListener {
+        SearchView.OnQueryTextListener {
     private Context mContext;
     private DBBookListAdapter mAdapter;
-    private int mLastItemPos;
+    private LinearLayoutManager mLayoutManager;
 
     /** 搜索结果起始位置的偏移量 */
     private int mStartOffset;
@@ -61,7 +61,7 @@ public class DBBookSearchView extends RelativeLayout
     private boolean mIsNewQuery;
 
     @BindView(R.id.search_result)
-    protected ListView mSearchResult;
+    protected RecyclerView mSearchResult;
 
     @BindView(R.id.search_refresh_container)
     protected SwipeRefreshLayout mRefreshLayout;
@@ -104,20 +104,6 @@ public class DBBookSearchView extends RelativeLayout
     public boolean onQueryTextChange(String newText) {
         setEnabled(!TextUtils.isEmpty(newText));
         return true;
-    }
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        if (scrollState == SCROLL_STATE_IDLE) {
-            if (mLastItemPos == mAdapter.getCount()) {
-                loadMoreBook();
-            }
-        }
-    }
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        mLastItemPos = firstVisibleItem + visibleItemCount;
     }
 
     /**
@@ -175,7 +161,6 @@ public class DBBookSearchView extends RelativeLayout
     private void init(Context context) {
         Logger.init(getClass().getSimpleName());
         mContext = context;
-        mLastItemPos = -1;
         mStartOffset = 0;
         mMaxQueryCount = 0;
         mIsNewQuery = true;
@@ -185,11 +170,15 @@ public class DBBookSearchView extends RelativeLayout
 
     private void initView(View view) {
         ButterKnife.bind(this, view);
-        mSearchResult.setOnItemClickListener(this);
+//        mSearchResult.setOnItemClickListener(this);
         mRefreshLayout.setOnRefreshListener(this);
         mRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         setEnabled(false);
-        mSearchResult.setOnScrollListener(this);
+
+        mLayoutManager = new LinearLayoutManager(mContext);
+        mSearchResult.setHasFixedSize(true);
+        mSearchResult.setLayoutManager(mLayoutManager);
+        mSearchResult.addOnScrollListener(mOnScrollListener);
     }
 
     private void showBookDetail(DBBook book) {
@@ -292,13 +281,26 @@ public class DBBookSearchView extends RelativeLayout
     }
 
     private void loadMoreBook() {
-        Logger.d("loading more book..." + mAdapter.getCount() + ", " + mMaxQueryCount);
-        if (mAdapter == null || mAdapter.getCount() == mMaxQueryCount) {
-            ToastUtils.showToast(mContext, "no more data");
+        Logger.d("loading more book..." + mAdapter.getItemCount() + ", " + mMaxQueryCount);
+        if (mAdapter == null || mAdapter.getItemCount() >= mMaxQueryCount) {
+            ToastUtils.showToast(mContext, R.string.search_no_more_data);
             return;
         }
 
         mIsNewQuery = false;
         searchBook(getQueryString(), mStartOffset, DEFAULT_QUERY_COUNT);
     }
+
+    private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                int lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+                if (lastVisibleItem == mAdapter.getItemCount() - 1) {
+                    loadMoreBook();
+                }
+            }
+        }
+    };
 }
