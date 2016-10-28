@@ -1,6 +1,7 @@
 package cn.lemene.boringlife.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.lemene.boringlife.R;
+import cn.lemene.boringlife.activity.DBBookDetailActivity;
 import cn.lemene.boringlife.module.DBBook;
 
 /**
@@ -50,7 +52,7 @@ public class DBBookListAdapter extends RecyclerView.Adapter<DBBookListAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.updateView(getItem(position));
+        holder.onBindView(position);
     }
 
     @Override
@@ -62,6 +64,7 @@ public class DBBookListAdapter extends RecyclerView.Adapter<DBBookListAdapter.My
         return mList.get(position);
     }
 
+    @SuppressWarnings("WeakerAccess")
     protected class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.book_cardview)
         protected CardView mCardView;
@@ -90,12 +93,11 @@ public class DBBookListAdapter extends RecyclerView.Adapter<DBBookListAdapter.My
         private MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mCardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        }
 
-                }
-            });
+        private void onBindView(int position) {
+            initOnClickListener(position);
+            updateView(getItem(position));
         }
 
         private void updateView(DBBook book) {
@@ -106,6 +108,17 @@ public class DBBookListAdapter extends RecyclerView.Adapter<DBBookListAdapter.My
             mPubDate.setText(String.format(mContext.getString(R.string.book_pub_date), book.getPUbDate()));
             mPage.setText(String.format(mContext.getString(R.string.book_page), book.getPages()));
             mPrice.setText(String.format(mContext.getString(R.string.book_price), book.getPrice()));
+        }
+
+        private void initOnClickListener(final int position) {
+            mCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, DBBookDetailActivity.class);
+                    intent.putExtra(DBBookDetailActivity.KEY_BOOK, getItem(position));
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 }

@@ -17,6 +17,7 @@
         android:layout_marginBottom="@dimen/cardview_margin_top_bottom"
         android:layout_marginStart="@dimen/cardview_margin_left_right"
         android:layout_marginEnd="@dimen/cardview_margin_left_right"
+        android:background="@android:color/transparent"
         app:cardCornerRadius="6dp"
         app:cardElevation="8dp"
         >
@@ -27,6 +28,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/cardview_padding"
             android:orientation="horizontal"
+            android:background="@android:color/transparent"
             >
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -41,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:orientation="vertical"
+                android:background="@android:color/transparent"
                 >
 
                 <TextView

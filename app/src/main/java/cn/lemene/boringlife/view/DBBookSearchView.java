@@ -295,7 +295,7 @@ public class DBBookSearchView extends RelativeLayout
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
-            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+            if (mAdapter != null && newState == RecyclerView.SCROLL_STATE_IDLE) {
                 int lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
                 if (lastVisibleItem == mAdapter.getItemCount() - 1) {
                     loadMoreBook();
