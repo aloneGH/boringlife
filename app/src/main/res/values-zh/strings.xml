@@ -34,4 +34,7 @@
     <string name="book_price">价格: %s</string>
     <string name="book_sub_title">副标题: %s</string>
     <string name="book_pub_date">出版日期: %s</string>
+    <string name="book_author_intro">作者简介</string>
+    <string name="book_catalog">目录</string>
+    <string name="book_summary">内容简介</string>
 </resources>

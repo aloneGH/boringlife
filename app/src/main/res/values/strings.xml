@@ -16,7 +16,7 @@
     <string name="http_error_404">Not found</string>
     <string name="http_error_500">Internal server error</string>
 
-    <string name="db_error_999">Unknow error</string>
+    <string name="db_error_999">Unknown error</string>
     <string name="db_error_1000">Need permission</string>
     <string name="db_error_1001">uri not found</string>
     <string name="db_error_1002">Missing args</string>
@@ -25,7 +25,7 @@
     <string name="db_error_1005">Input too short</string>
     <string name="db_error_1006">Target not found</string>
     <string name="db_error_1007">Need captcha</string>
-    <string name="db_error_1008">Image unknow</string>
+    <string name="db_error_1008">Image unknown</string>
     <string name="db_error_1009">Image wrong format</string>
     <string name="db_error_1010">Image wrong ck</string>
     <string name="db_error_1011">Image ck expired</string>
@@ -34,10 +34,17 @@
 
     <string name="db_error_100">Invalid request scheme</string>
     <string name="db_error_107">Invalid request uri</string>
-    
+
     <string name="book_author">Author: %s</string>
     <string name="book_sub_title">SubTitle: %s</string>
     <string name="book_pub_date">Pub date: %s</string>
     <string name="book_page">Page: %s</string>
     <string name="book_price">Price: %s</string>
+
+    <string name="book_summary">Summary</string>
+    <string name="book_author_intro">About the author</string>
+    <string name="book_catalog">Catalog</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
