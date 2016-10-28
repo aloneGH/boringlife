@@ -296,12 +296,16 @@ public class DBBook implements Serializable {
         return list2String(mTranslators);
     }
 
+    public String getTagString() {
+        return list2String(mTagses);
+    }
+
     /**
      * 字符串列表转换为字符串
      * @param list
      * @return
      */
-    public String list2String(List<String> list) {
+    public String list2String(List<?> list) {
         StringBuilder builder = new StringBuilder();
         if (list != null && list.size() > 0) {
             int i;
@@ -371,6 +375,22 @@ public class DBBook implements Serializable {
 
         /** 评价人数 */
         private int numRaters;
+
+        public int getMax() {
+            return max;
+        }
+
+        public int getMin() {
+            return min;
+        }
+
+        public float getAverage() {
+            return average;
+        }
+
+        public int getNumRaters() {
+            return numRaters;
+        }
     }
 
     /** 图书标签 */
@@ -383,6 +403,11 @@ public class DBBook implements Serializable {
 
         /** 标签标题 */
         private String title;
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     /** 封面图片 */

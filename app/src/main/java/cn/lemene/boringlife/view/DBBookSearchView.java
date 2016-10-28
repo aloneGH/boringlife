@@ -45,8 +45,8 @@ import retrofit2.Retrofit;
  */
 
 public class DBBookSearchView extends RelativeLayout
-        implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener,
-        SearchView.OnQueryTextListener {
+        implements SwipeRefreshLayout.OnRefreshListener,
+        SearchView.OnQueryTextListener, DBBookListAdapter.OnItemClickListener {
     private Context mContext;
     private DBBookListAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -81,12 +81,6 @@ public class DBBookSearchView extends RelativeLayout
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        DBBook book = mAdapter.getItem(position);
-        showBookDetail(book);
-    }
-
-    @Override
     public void onRefresh() {
         Logger.d("refresh query...");
         mIsNewQuery = true;
@@ -104,6 +98,11 @@ public class DBBookSearchView extends RelativeLayout
     public boolean onQueryTextChange(String newText) {
         setEnabled(!TextUtils.isEmpty(newText));
         return true;
+    }
+
+    @Override
+    public void onItemClick(DBBook book, int position) {
+        showBookDetail(book);
     }
 
     /**
@@ -170,7 +169,6 @@ public class DBBookSearchView extends RelativeLayout
 
     private void initView(View view) {
         ButterKnife.bind(this, view);
-//        mSearchResult.setOnItemClickListener(this);
         mRefreshLayout.setOnRefreshListener(this);
         mRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         setEnabled(false);
@@ -196,6 +194,7 @@ public class DBBookSearchView extends RelativeLayout
 
         if (mAdapter == null) {
             mAdapter = new DBBookListAdapter(mContext, books);
+            mAdapter.setOnItemClickListener(this);
             mSearchResult.setAdapter(mAdapter);
         } else {
             mAdapter.updateBooks(books, mIsNewQuery);

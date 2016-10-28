@@ -7,24 +7,23 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 import cn.lemene.boringlife.fragment.SummaryFragment;
+import cn.lemene.boringlife.module.Summary;
 
 /**
  * @author snail 2016/10/28 17:29
  */
 
 public class BookSummaryAdapter extends FragmentPagerAdapter {
-    private List<String> mSummaries;
-    private List<String> mTitles;
+    private List<Summary> mSummaries;
 
-    public BookSummaryAdapter(FragmentManager fm, List<String> summaries, List<String> titles) {
+    public BookSummaryAdapter(FragmentManager fm, List<Summary> summaries) {
         super(fm);
         mSummaries = summaries;
-        mTitles = titles;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return SummaryFragment.newInstance(mSummaries.get(position));
+        return SummaryFragment.newInstance(mSummaries.get(position).getSummary());
     }
 
     @Override
@@ -34,6 +33,6 @@ public class BookSummaryAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mTitles.get(position);
+        return mSummaries.get(position).getTitle();
     }
 }

@@ -28,6 +28,11 @@ import cn.lemene.boringlife.module.DBBook;
 public class DBBookListAdapter extends RecyclerView.Adapter<DBBookListAdapter.MyViewHolder> {
     private Context mContext;
     private List<DBBook> mList;
+    private OnItemClickListener mItemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(DBBook book, int position);
+    }
 
     public DBBookListAdapter(Context context, List<DBBook> list) {
         mContext = context;
@@ -62,6 +67,16 @@ public class DBBookListAdapter extends RecyclerView.Adapter<DBBookListAdapter.My
 
     public DBBook getItem(int position) {
         return mList.get(position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mItemClickListener = listener;
+    }
+
+    private void notifyItemClick(DBBook book, int position) {
+        if (mItemClickListener != null) {
+            mItemClickListener.onItemClick(book, position);
+        }
     }
 
     @SuppressWarnings("WeakerAccess")
@@ -114,9 +129,7 @@ public class DBBookListAdapter extends RecyclerView.Adapter<DBBookListAdapter.My
             mCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, DBBookDetailActivity.class);
-                    intent.putExtra(DBBookDetailActivity.KEY_BOOK, getItem(position));
-                    mContext.startActivity(intent);
+                    notifyItemClick(getItem(position), position);
                 }
             });
         }

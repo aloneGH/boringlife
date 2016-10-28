@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import cn.lemene.boringlife.R;
 import cn.lemene.boringlife.adapter.BookSummaryAdapter;
 import cn.lemene.boringlife.module.DBBook;
+import cn.lemene.boringlife.module.Summary;
 
 /**
  * 豆瓣图书详情页面
@@ -97,16 +98,12 @@ public class DBBookDetailFragment extends Fragment {
     }
 
     private void initViewPager() {
-        List<String> titles = new ArrayList<>();
-        titles.add(getString(R.string.book_summary));
-        titles.add(getString(R.string.book_author_intro));
-        titles.add(getString(R.string.book_catalog));
-
-        List<String> summaries = new ArrayList<>();
-        summaries.add(mBook.getSummary());
-        summaries.add(mBook.getAuthorIntro());
-        summaries.add(mBook.getCatalog());
-        mViewPager.setAdapter(new BookSummaryAdapter(getChildFragmentManager(), summaries, titles));
+        List<Summary> summaries = new ArrayList<>();
+        summaries.add(new Summary(getString(R.string.book_summary), mBook.getSummary()));
+        summaries.add(new Summary(getString(R.string.book_author_intro), mBook.getAuthorIntro()));
+        summaries.add(new Summary(getString(R.string.book_catalog), mBook.getCatalog()));
+        summaries.add(new Summary(getString(R.string.book_detail), getBookDetail(mBook)));
+        mViewPager.setAdapter(new BookSummaryAdapter(getChildFragmentManager(), summaries));
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -128,5 +125,28 @@ public class DBBookDetailFragment extends Fragment {
             Logger.e("mBook is null, check book failed");
             getActivity().finish();
         }
+    }
+
+    private String getBookDetail(DBBook book) {
+        if (book == null) {
+            return null;
+        }
+
+        DBBook.Rating rating = book.getRating();
+        String ratingString = String.format(getString(R.string.book_rating), rating.getAverage(), rating.getNumRaters());
+        StringBuilder builder = new StringBuilder();
+        builder.append(String.format(getString(R.string.book_author), book.getAuthors()) + "\n");
+        builder.append(String.format(getString(R.string.book_origin_title), book.getOriginTitle()) + "\n");
+        builder.append(String.format(getString(R.string.book_sub_title), book.getSubtile()) + "\n");
+        builder.append(String.format(getString(R.string.book_pub_date), book.getPUbDate()) + "\n");
+        builder.append(String.format(getString(R.string.book_publisher), book.getPUblisher()) + "\n");
+        builder.append(String.format(getString(R.string.book_page), book.getPages()) + "\n");
+        builder.append(String.format(getString(R.string.book_binding), book.getBinding()) + "\n");
+        builder.append(String.format(getString(R.string.book_isbn13), book.getIsbn13()) + "\n");
+        builder.append(String.format(getString(R.string.book_price), book.getPrice()) + "\n");
+        builder.append(String.format(getString(R.string.book_tag), book.getTagString()) + "\n");
+        builder.append(ratingString + "\n");
+        builder.append(String.format(getString(R.string.book_web_link), book.getWebLink()) + "\n");
+        return builder.toString();
     }
 }

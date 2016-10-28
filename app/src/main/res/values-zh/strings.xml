@@ -37,4 +37,13 @@
     <string name="book_author_intro">作者简介</string>
     <string name="book_catalog">目录</string>
     <string name="book_summary">内容简介</string>
+    <string name="book_detail">详情</string>
+    <string name="book_binding">装帧: %s</string>
+    <string name="book_isbn13">Isbn: %s</string>
+    <string name="book_origin_title">原作名: %s</string>
+    <string name="book_publisher">出版社: %s</string>
+    <string name="book_rating">平均评分: %1$f, 评分人数: %2$d</string>
+    <string name="book_tag">标签: %s</string>
+    <string name="book_translator">译者: %s</string>
+    <string name="book_web_link">网页链接: %s</string>
 </resources>
