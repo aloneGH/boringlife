@@ -106,7 +106,7 @@ public class DBBookSearchView extends RelativeLayout
     }
 
     /**
-     * 搜索图书(默认搜索20条记录)
+     * 搜索图书
      * @param query 搜索的关键字
      */
     public void searchBook(String query) {
