@@ -4,9 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 
 import com.orhanobut.logger.Logger;
+
+import me.majiajie.swipeback.SwipeBackActivity;
 
 /**
  * 单一Fragment的Activity
@@ -14,8 +15,7 @@ import com.orhanobut.logger.Logger;
  * @version v1.0
  */
 
-public abstract class SingleFragmentActivity extends AppCompatActivity {
-
+public abstract class SingleFragmentActivity extends SwipeBackActivity {
     public abstract Fragment createFragment();
 
     public abstract int getFragmentContainer();

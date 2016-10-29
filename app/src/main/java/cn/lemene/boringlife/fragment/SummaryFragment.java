@@ -1,9 +1,16 @@
 package cn.lemene.boringlife.fragment;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,5 +70,4 @@ public class SummaryFragment extends Fragment {
         ButterKnife.bind(this, view);
         mTextView.setText(mSummary);
     }
-
 }

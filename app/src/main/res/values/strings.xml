@@ -40,7 +40,7 @@
     <string name="book_pub_date">Pub date: %s</string>
     <string name="book_page">Page: %s</string>
     <string name="book_price">Price: %s</string>
-    <string name="book_rating">Rating average: %1$f, rating number: %2$d</string>
+    <string name="book_rating">Rating average: %1$4.2f, rating number: %2$-8d</string>
     <string name="book_tag">Tag: %s</string>
     <string name="book_origin_title">Origin title: %s</string>
     <string name="book_binding">Binding: %s</string>
@@ -50,8 +50,9 @@
     <string name="book_isbn13">Isbn: %s</string>
 
     <string name="book_summary">Summary</string>
-    <string name="book_author_intro">About the author</string>
+    <string name="book_author_intro">Author</string>
     <string name="book_catalog">Catalog</string>
     <string name="book_detail">Detail</string>
+    <string name="title_activity_web_view">WebViewActivity</string>
 
 </resources>

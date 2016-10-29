@@ -94,7 +94,7 @@ public class DBBookDetailFragment extends Fragment {
         initTabLayout();
 
         mCollapsingToolbar.setTitle(mBook.getTitle());
-        mBookImg.setImageURI(mBook.getCover());
+        mBookImg.setImageURI(mBook.getCoveres().getLarge());
     }
 
     private void initViewPager() {

@@ -420,6 +420,18 @@ public class DBBook implements Serializable {
 
         /** 封面大图 */
         private String large;
+
+        public String getSmall() {
+            return small;
+        }
+
+        public String getMedium() {
+            return medium;
+        }
+
+        public String getLarge() {
+            return large;
+        }
     }
 
 }

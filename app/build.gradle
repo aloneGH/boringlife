@@ -38,6 +38,7 @@ dependencies {
     compile 'com.facebook.fresco:animated-gif:0.14.1'
     compile 'com.facebook.fresco:animated-webp:0.14.1'
     compile 'com.facebook.fresco:webpsupport:0.14.1'
+    compile 'me.majiajie:swipe-back:1.0.0-alpha2'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
 }
