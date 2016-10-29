@@ -53,6 +53,5 @@
     <string name="book_author_intro">Author</string>
     <string name="book_catalog">Catalog</string>
     <string name="book_detail">Detail</string>
-    <string name="title_activity_web_view">WebViewActivity</string>
 
 </resources>
